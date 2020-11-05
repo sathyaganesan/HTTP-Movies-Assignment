@@ -75,3 +75,10 @@ body {
   color: red;
   text-align: center;
 }
+
+.update_maindiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
