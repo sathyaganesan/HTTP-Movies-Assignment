@@ -6,7 +6,7 @@ export const UpdateMovie = (props) => {
 
     console.log("Update Movie PROPS", props);
 
-    const history = useHistory();
+    const {push} = useHistory();
     const params = useParams();
 
     console.log(params);
@@ -19,9 +19,9 @@ export const UpdateMovie = (props) => {
         stars: [],
     });
 
-    const updateMovie = (id) => {
+    const updateMovie = () => {
         axios
-        .get(`http://localhost:5000/api/movies/${id}`)
+        .get(`http://localhost:5000/api/movies/${params.id}`)
         .then((res) => {
             setEditMovie(res.data);
             console.log("RESPONSE FROM UPDATE COMPONENT", res);
@@ -33,7 +33,7 @@ export const UpdateMovie = (props) => {
     }
 
     useEffect(() => {
-        updateMovie(params.id);
+        updateMovie();
     }, [params.id]);
 
     const changeHandler = (e) => {
@@ -41,60 +41,58 @@ export const UpdateMovie = (props) => {
         if (e.target.name === "metascore") {
             e.target.value = parseInt(e.target.value, 10)
         };
-        setEditMovie({...editMovie, [e.target.name]: e.target.value})
-    }
+        setEditMovie({ ...editMovie, [e.target.name]: e.target.value })
+    };
 
     const sumbitHandler = (e) => {
         e.preventDefault();
-        axios.put(`http://localhost:5000/api/movies`, editMovie)
+        axios.put(`http://localhost:5000/api/movies/${params.id}`, editMovie)
             .then((res) => {
-                props.setMovieList(res.data);
-                history.push("/movie/${id}");
-                console.log(res);
+                setEditMovie(res.data);
+                // setMovieList(res.data);
+                push(`/`);
+                console.log("PUT REQUEST", res.data);
             })
             .catch((err) => {
                 console.log(err);
             });
-    }
+    };
 
 
     return (
         <div className = "update_maindiv">
             <h2> Update Movie Details </h2>
             <div>
-                <form onClick = {sumbitHandler}>
+                <form onSubmit = {sumbitHandler}>
                     <div>
-                        <label>Title: 
+                        <label>Title: </label>
                             <input
                                 type="text"
                                 name="title"
                                 value={editMovie.title}
                                 onChange = {changeHandler}
                             />
-                        </label>
                     </div>
                     <div>
-                        <label> Director:
+                        <label> Director: </label>
                             <input
                                 type="text"
                                 name="director"
                                 value={editMovie.director}
                                 onChange = {changeHandler}
                             />
-                        </label>
                     </div>
                     <div>
-                        <label>Metascore:
+                        <label>Metascore:</label>
                             <input
                                 type="text"
-                                name="director"
+                                name="metascore"
                                 value={editMovie.metascore}
                                 onChange = {changeHandler}
                             />
-                        </label>
                     </div>
                     <div>
-                        <button>
+                        <button type = "submit">
                             Submit Update
                         </button>
                     </div>

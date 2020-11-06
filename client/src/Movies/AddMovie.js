@@ -9,7 +9,7 @@ const initialMovieItem = {
     stars: [],
 }
 
-const AddMovie = (props) => {
+export const AddMovie = (props) => {
 
     const [addNewMovie, setNewMovie] = useState(initialMovieItem);
     const history = useHistory();
@@ -34,9 +34,9 @@ const AddMovie = (props) => {
 
         axios.post(`http://localhost:5000/api/movies/`, addNewMovie)
         .then(res => {
-            history.push(`/movies`);
             console.log(res);
-            props.setMovieList(res.data);
+            // props.setMovieList(res.data);
+            history.push(`/`);
         })
         .catch((err) => console.log(err))
     }
@@ -44,41 +44,47 @@ const AddMovie = (props) => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-            <input
-                    type="text"
-                    name="title"
-                    onChange={changeHandler}
-                    placeholder="title"
-                    value={addNewMovie.title}
-                />
+                <div>
+                    <input
+                        type="text"
+                        name="title"
+                        onChange={changeHandler}
+                        placeholder="title"
+                        value={addNewMovie.title}
+                    />
+                </div>
+           
+                <div>
+                    <input
+                        type="text"
+                        name="director"
+                        onChange={changeHandler}
+                        placeholder="director"
+                        value={addNewMovie.director}
+                    />
+                </div>
 
-                <input
-                    type="text"
-                    name="director"
-                    onChange={changeHandler}
-                    placeholder="director"
-                    value={addNewMovie.director}
-                />
+                <div>
+                    <input 
+                        type="text"
+                        name="metascore"
+                        onChange={changeHandler}
+                        placeholder="metascore"
+                        value={addNewMovie.metascore}
+                    />
+                </div>
+                <div>
+                    <input
+                        type="text"
+                        name="stars"
+                        onChange={changeHandler}
+                        placeholder="stars"
+                        value={addNewMovie.stars}
+                    />
+                </div>
 
-                <input 
-                    type="text"
-                    name="metascore"
-                    onChange={changeHandler}
-                    placeholder="metascore"
-                    value={addNewMovie.metascore}
-                />
-
-                <input
-                    type="text"
-                    name="stars"
-                    onChange={changeHandler}
-                    placeholder="stars"
-                    value={addNewMovie.stars}
-                />
                 <button type="submit">Submit here</button>
             </form>
         </div>
     )
 }
-
-export default AddMovie;

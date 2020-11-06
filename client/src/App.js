@@ -5,8 +5,7 @@ import MovieList from "./Movies/MovieList";
 import Movie from "./Movies/Movie";
 import axios from 'axios';
 import { UpdateMovie } from "./Movies/UpdateMovie";
-// import e from "express";
-import  AddMovie  from "./Movies/AddMovie";
+import  {AddMovie } from "./Movies/AddMovie";
 
 const App = () => {
   const [savedList, setSavedList] = useState([]);
@@ -26,33 +25,34 @@ const App = () => {
 
   useEffect(() => {
     getMovieList();
-  }, []);
+  }, [movieList]);
 
-  const addMovieHandler = (e) => {
-    e.preventDefault();
-    push(`/add-movie/`);
-  }
+  // const addMovieHandler = (e) => {
+  //   e.preventDefault();
+  //   push(`/addnewmovie/:id`);
+  // }
 
   return (
     <>
       <SavedList list={savedList} />
 
       <Route exact path="/">
-        <button onClick = {addMovieHandler}>Add New Movie</button>
+        
         <MovieList movies={movieList} />
       </Route>
 
       <Route path="/movies/:id">
-        <Movie addToSavedList={addToSavedList} />
+        <Movie addToSavedList={addToSavedList}  />
       </Route>
-
+          {/* setMovieList={setMovieList}  */}
       <Route path="/updatemovie/:id">
-        <UpdateMovie setMovieList={setMovieList}/>
+        <UpdateMovie />
       </Route> 
-
-      <Route path="/addnewmovie/">
-        <AddMovie setMovieList={setMovieList}/>
+        {/* setMovieList={setMovieList} */}
+      <Route path="/addnewmovie">
+        <AddMovie />
       </Route>
+      {/* setMovieList={setMovieList} */}
     </>
   );
 };
